@@ -16,8 +16,8 @@ export class CustomMigrationGenerator extends TSMigrationGenerator {
     // Sticking to whatever sql-formatter comes up with, even the newline after CREATE TABLE
     // see: https://github.com/sql-formatter-org/sql-formatter/issues/495
     const formatted = base
-      .replace(/this\.addSql\('/g, 'this.addSql(/* sql */ `\n')
-      .replace(/'\);\n/g, '\n    `);\n');
+      .replace(/this\.addSql\(`/g, 'this.addSql(/* sql */`\n')
+      .replace(/`\);\n/g, '\n    `);\n');
     return formatted;
   }
 
