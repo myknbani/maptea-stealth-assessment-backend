@@ -18,10 +18,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prepare": "husky"
+    "prepare": "husky",
+    "orm": "env $(cat .env | xargs) pnpm exec mikro-orm"
   },
   "dependencies": {
     "@apollo/server": "^4.12.1",
+    "@mikro-orm/cli": "^6.4.15",
     "@mikro-orm/core": "^6.4.15",
     "@mikro-orm/entity-generator": "^6.4.15",
     "@mikro-orm/migrations": "^6.4.15",
