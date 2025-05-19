@@ -47,3 +47,31 @@ jobs:
 
       - name: Save image to tar.gz
         run: docker save maptea-stealth-assessment-backend | gzip > maptea-stealth-assessment-backend.tar.gz
+
+      - name: Debug SSH key (safe version)
+        run: echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | head -n 2
+
+      - name: Upload image to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          source: 'maptea-stealth-assessment-backend.tar.gz'
+          target: '~'
+
+      - name: Load and run container on EC2
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          script: |
+            docker stop maptea-stealth-assessment-backend || true
+            docker rm maptea-stealth-assessment-backend || true
+            gunzip -c ~/maptea-stealth-assessment-backend.tar.gz | docker load
+            docker run -d \
+              --name maptea-stealth-assessment-backend \
+              --restart unless-stopped \
+              -p 80:3001 \
+              maptea-stealth-assessment-backend
