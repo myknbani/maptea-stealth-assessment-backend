@@ -1,13 +1,13 @@
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { Migrator } from '@mikro-orm/migrations';
-import { defineConfig, MikroORM, SimpleLogger } from '@mikro-orm/postgresql';
+import { defineConfig, MikroORM } from '@mikro-orm/postgresql';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { SeedManager } from '@mikro-orm/seeder';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 
+import { PostgreSqlOptions } from '@mikro-orm/postgresql/PostgreSqlMikroORM';
 import { Logger } from '@nestjs/common';
 import { CustomMigrationGenerator } from './orm/custom-migration-generator';
-import { PostgreSqlOptions } from '@mikro-orm/postgresql/PostgreSqlMikroORM';
 
 const additionalOptions: PostgreSqlOptions = {};
 if (process.argv.some((arg) => arg.endsWith('node_modules/@mikro-orm/cli/cli'))) {
