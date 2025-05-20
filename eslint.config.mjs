@@ -31,4 +31,13 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-argument': 'warn',
     },
   },
+  {
+    // mocks are expected to be in these form:
+    // ✅ expect(instance.method)
+    // 🙅 expect(instance.method.bind(instance))
+    files: ['**/*.test.ts'],
+    rules: {
+      '@typescript-eslint/unbound-method': 'off',
+    },
+  },
 );
