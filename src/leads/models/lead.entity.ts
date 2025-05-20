@@ -1,4 +1,11 @@
-import { Entity, EntityRepositoryType, ManyToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  Collection,
+  Entity,
+  EntityRepositoryType,
+  ManyToMany,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
 import { LeadRepository } from '../lead.repository';
 import { ServiceType } from './dining-service-type.entity';
 import { LeadInterest } from './lead-interest.entity';
@@ -23,7 +30,7 @@ export class Lead {
   postCode: string;
 
   @ManyToMany({ pivotEntity: () => LeadInterest })
-  interests: ServiceType;
+  servicesInterests: Collection<ServiceType> = new Collection<ServiceType>(this);
 
   @Property()
   createdAt: Date = new Date();
