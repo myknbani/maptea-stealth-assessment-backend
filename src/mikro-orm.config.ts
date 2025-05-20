@@ -1,6 +1,6 @@
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { Migrator } from '@mikro-orm/migrations';
-import { defineConfig } from '@mikro-orm/postgresql';
+import { defineConfig, PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { SeedManager } from '@mikro-orm/seeder';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
@@ -22,6 +22,7 @@ if (process.argv.some((arg) => arg.endsWith('node_modules/@mikro-orm/cli/cli')))
 
 const logger = new Logger(MikroORM.name);
 export default defineConfig({
+  driver: PostgreSqlDriver, // https://github.com/mikro-orm/nestjs/pull/204
   ...additionalOptions,
   extensions: [EntityGenerator, Migrator, SeedManager],
   entities: ['./dist/**/*.entity.js'],
