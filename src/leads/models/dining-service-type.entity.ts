@@ -25,4 +25,8 @@ export class ServiceType {
 
   @Property({ onUpdate: () => new Date() })
   updatedAt: Date = new Date();
+
+  constructor(data: Partial<ServiceType>) {
+    Object.assign(this, data);
+  }
 }

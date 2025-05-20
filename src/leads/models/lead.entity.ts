@@ -37,4 +37,8 @@ export class Lead {
 
   @Property({ onUpdate: () => new Date() })
   updatedAt: Date = new Date();
+
+  constructor(lead: Partial<Lead>) {
+    Object.assign(this, lead);
+  }
 }

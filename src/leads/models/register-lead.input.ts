@@ -9,4 +9,9 @@ export class RegisterLeadInput extends OmitType(Lead, [
   'servicesInterests',
 ] as const) {
   servicesInterests: string[];
+
+  constructor(data: RegisterLeadInput) {
+    super();
+    Object.assign(this, data);
+  }
 }
