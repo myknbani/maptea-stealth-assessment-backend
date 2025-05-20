@@ -1,6 +1,6 @@
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Seeder } from '@mikro-orm/seeder';
-import { ServiceType } from '../leads/models/dining-service-type.entity';
+import { ServiceType } from '../leads/models/service-type.entity';
 
 export class ServiceTypeSeeder extends Seeder {
   run(entityManager: EntityManager) {

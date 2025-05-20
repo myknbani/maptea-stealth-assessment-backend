@@ -25,4 +25,8 @@ export class LeadService {
     await this.entityManager.flush();
     return lead;
   }
+
+  async getLeads(): Promise<Lead[]> {
+    return await this.leadRepository.findAll();
+  }
 }

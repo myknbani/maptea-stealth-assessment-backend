@@ -7,13 +7,16 @@ import {
   Property,
 } from '@mikro-orm/core';
 import { LeadRepository } from '../lead.repository';
-import { ServiceType } from './dining-service-type.entity';
+import { ServiceType } from './service-type.entity';
 import { LeadInterest } from './lead-interest.entity';
-import { ObjectType } from '@nestjs/graphql';
+import { HideField, ObjectType } from '@nestjs/graphql';
+
+console.log('*** Lead entity loaded', EntityRepositoryType);
 
 @Entity({ repository: () => LeadRepository })
 @ObjectType()
 export class Lead {
+  @HideField()
   [EntityRepositoryType]?: LeadRepository;
 
   @PrimaryKey()
@@ -31,6 +34,7 @@ export class Lead {
   @Property()
   postCode: string;
 
+  @HideField() // temporary
   @ManyToMany({ pivotEntity: () => LeadInterest })
   servicesInterests: Collection<ServiceType> = new Collection<ServiceType>(this);
 

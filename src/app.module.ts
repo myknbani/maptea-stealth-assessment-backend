@@ -6,6 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AppResolver } from './app.resolver';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ConfigModule } from '@nestjs/config';
+import { LeadsModule } from './leads/leads.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ConfigModule } from '@nestjs/config';
       graphiql: true,
       autoSchemaFile: true,
     }),
+    LeadsModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],

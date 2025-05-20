@@ -1,5 +1,6 @@
 import { Entity, EntityRepositoryType, PrimaryKey, Property } from '@mikro-orm/core';
 import { ServiceTypeRepository } from '../service-type.repository';
+import { HideField, ObjectType } from '@nestjs/graphql';
 
 /**
  * Entity representing the dining service types. Right now the purpose is just to provide a list
@@ -11,7 +12,9 @@ import { ServiceTypeRepository } from '../service-type.repository';
  * - or even groceries
  */
 @Entity({ repository: () => ServiceTypeRepository })
+@ObjectType()
 export class ServiceType {
+  @HideField()
   [EntityRepositoryType]?: ServiceTypeRepository;
 
   @PrimaryKey()

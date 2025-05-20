@@ -5,7 +5,7 @@ import { LeadRepository } from './lead.repository';
 import { ServiceTypeRepository } from './service-type.repository';
 import { Collection, EntityManager } from '@mikro-orm/postgresql';
 import { Lead } from './models/lead.entity';
-import { ServiceType } from './models/dining-service-type.entity';
+import { ServiceType } from './models/service-type.entity';
 import { createMock } from '@golevelup/ts-jest';
 
 describe('LeadService', () => {

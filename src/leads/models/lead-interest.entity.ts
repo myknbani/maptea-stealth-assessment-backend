@@ -1,6 +1,6 @@
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { Lead } from './lead.entity';
-import { ServiceType } from './dining-service-type.entity';
+import { ServiceType } from './service-type.entity';
 
 @Entity()
 export class LeadInterest {
