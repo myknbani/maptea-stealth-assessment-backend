@@ -1,25 +1,30 @@
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { Migrator } from '@mikro-orm/migrations';
-import { defineConfig } from '@mikro-orm/postgresql';
+import { defineConfig, MikroORM, SimpleLogger } from '@mikro-orm/postgresql';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { SeedManager } from '@mikro-orm/seeder';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 
 import { Logger } from '@nestjs/common';
 import { CustomMigrationGenerator } from './orm/custom-migration-generator';
+import { PostgreSqlOptions } from '@mikro-orm/postgresql/PostgreSqlMikroORM';
 
-const url = process.env.DATABASE_URL; // Needed by migrations and seeders that run outside of Nest
+const additionalOptions: PostgreSqlOptions = {};
+if (process.argv.some((arg) => arg.endsWith('node_modules/@mikro-orm/cli/cli'))) {
+  const databaseUrl = process.env.DATABASE_URL;
+  if (!databaseUrl) {
+    throw new Error('DATABASE_URL environment variable is missing.');
+  }
 
-if (!url) {
-  throw new Error('DATABASE_URL environment variable is missing.');
+  additionalOptions.clientUrl = databaseUrl;
 }
 
-const mikroOrmLogger = new Logger('MikroORM');
+const logger = new Logger(MikroORM.name);
 export default defineConfig({
+  ...additionalOptions,
   extensions: [EntityGenerator, Migrator, SeedManager],
   entities: ['./dist/**/*.entity.js'],
   entitiesTs: ['./src/**/*.entity.ts'],
-  clientUrl: url,
   debug: true,
   metadataProvider: TsMorphMetadataProvider,
   highlighter: new SqlHighlighter(),
@@ -29,7 +34,10 @@ export default defineConfig({
     pathTs: './src/migrations',
     disableForeignKeys: false,
   },
-  logger: (message) => mikroOrmLogger.debug(message),
+  logger: (message: string) => {
+    // this setting will only be respected if "spread" in .forRoot({...})
+    logger.debug(message);
+  },
   seeder: {
     defaultSeeder: 'MapteaEmptyTablesSeeder',
     path: './dist/seeds',
