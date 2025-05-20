@@ -1,4 +1,7 @@
 // https://medium.com/@salvinodsa/typeorm-to-mikroorm-my-journey-through-the-migration-process-3d7b57a9c481
+
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 jest.mock('@mikro-orm/core', () => ({
   ...jest.requireActual('@mikro-orm/core'),
   Collection: class<T> {
