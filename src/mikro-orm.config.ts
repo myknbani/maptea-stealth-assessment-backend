@@ -46,4 +46,10 @@ export default defineConfig({
     pathTs: './src/seeds',
     glob: '**/*.seeder.{js,ts}',
   },
+  driverOptions: {
+    connection: {
+      // SSL issues with self-signed certs
+      ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
+    },
+  },
 });

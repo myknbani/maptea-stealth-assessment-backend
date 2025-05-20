@@ -71,4 +71,5 @@ jobs:
               --restart unless-stopped \
               -p 80:3001 \
               -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+              -e DATABASE_SSL=true \
               maptea-stealth-assessment-backend
