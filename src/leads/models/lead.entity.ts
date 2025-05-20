@@ -9,8 +9,10 @@ import {
 import { LeadRepository } from '../lead.repository';
 import { ServiceType } from './dining-service-type.entity';
 import { LeadInterest } from './lead-interest.entity';
+import { ObjectType } from '@nestjs/graphql';
 
 @Entity({ repository: () => LeadRepository })
+@ObjectType()
 export class Lead {
   [EntityRepositoryType]?: LeadRepository;
 
