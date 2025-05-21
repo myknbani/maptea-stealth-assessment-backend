@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { LeadsModule } from './leads/leads.module';
 import mikroOrmConfig from './mikro-orm.config';
 import { AuthModule } from './auth/auth.module';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
+        driver: PostgreSqlDriver,
         ...mikroOrmConfig,
         clientUrl: configService.get('DATABASE_URL'),
       }),
