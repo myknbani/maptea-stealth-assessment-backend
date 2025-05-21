@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { LeadRepository } from './lead.repository';
 import { ServiceTypeRepository } from './service-type.repository';
 import { Lead } from './models/lead.entity';
@@ -8,6 +8,8 @@ import { ListLeadsInput } from './models/list-leads.input';
 
 @Injectable()
 export class LeadService {
+  private readonly logger = new Logger(LeadService.name);
+
   constructor(
     private readonly leadRepository: LeadRepository,
     private readonly serviceTypeRepository: ServiceTypeRepository,
@@ -15,6 +17,8 @@ export class LeadService {
   ) {}
 
   async createLead(leadInput: RegisterLeadInput): Promise<Lead> {
+    this.logger.log(`Creating lead with input: ${JSON.stringify(leadInput)}`);
+
     const { servicesInterests, ...profile } = leadInput;
     const lead = this.leadRepository.create(profile as Lead);
 
@@ -22,8 +26,10 @@ export class LeadService {
       name: { $in: servicesInterests },
     });
     lead.servicesInterests.set(serviceTypes);
+    this.logger.debug(`Creating lead with services: ${JSON.stringify(lead)}`);
 
     await this.entityManager.flush();
+    this.logger.log(`Lead created successfully: ${JSON.stringify(lead)}`);
     return lead;
   }
 

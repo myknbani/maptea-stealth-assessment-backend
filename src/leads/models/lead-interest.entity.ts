@@ -13,9 +13,9 @@ export class LeadInterest {
   @ManyToOne()
   diningServiceType: ServiceType;
 
-  @Property()
+  /**
+   *
+   */
+  @Property({ defaultRaw: 'now()' }) // ORM only sets the 2 FKs leaving created_at setting to the DB
   createdAt: Date = new Date();
-
-  @Property({ onUpdate: () => new Date() })
-  updatedAt: Date = new Date();
 }

@@ -1,13 +1,12 @@
-import { InputType, OmitType } from '@nestjs/graphql';
+import { Field, InputType, Int, ObjectType, OmitType } from '@nestjs/graphql';
 import { Lead } from './lead.entity';
 
 @InputType()
-export class RegisterLeadInput extends OmitType(Lead, [
-  'id',
-  'createdAt',
-  'updatedAt',
-  'servicesInterests',
-] as const) {
+export class RegisterLeadInput extends OmitType(
+  Lead,
+  ['id', 'createdAt', 'updatedAt', 'servicesInterests'],
+  InputType,
+) {
   servicesInterests: string[];
 
   constructor(data: RegisterLeadInput) {

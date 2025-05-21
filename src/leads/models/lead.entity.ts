@@ -9,7 +9,7 @@ import {
 import { LeadRepository } from '../lead.repository';
 import { ServiceType } from './service-type.entity';
 import { LeadInterest } from './lead-interest.entity';
-import { HideField, ObjectType } from '@nestjs/graphql';
+import { Field, HideField, Int, ObjectType } from '@nestjs/graphql';
 
 console.log('*** Lead entity loaded', EntityRepositoryType);
 
