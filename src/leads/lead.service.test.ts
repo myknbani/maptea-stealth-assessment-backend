@@ -123,7 +123,6 @@ describe('LeadService', () => {
 
       // Act
       const result = await leadService.getLeads(paginationSettings);
-      console.log('***', result);
 
       // Assert
       expect(result).toEqual(mockLeads);

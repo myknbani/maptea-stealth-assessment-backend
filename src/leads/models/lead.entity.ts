@@ -11,8 +11,6 @@ import { ServiceType } from './service-type.entity';
 import { LeadInterest } from './lead-interest.entity';
 import { Field, HideField, Int, ObjectType } from '@nestjs/graphql';
 
-console.log('*** Lead entity loaded', EntityRepositoryType);
-
 @Entity({ repository: () => LeadRepository })
 @ObjectType()
 export class Lead {
