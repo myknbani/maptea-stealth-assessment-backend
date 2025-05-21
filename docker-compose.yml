@@ -1,5 +1,6 @@
 services:
-  nest:
+  backend:
+    container_name: maptea-backend
     build:
       context: .
       target: deps
@@ -24,6 +25,7 @@ services:
           path: pnpm-lock.yaml
 
   db:
+    container_name: maptea-db
     image: postgres:17
     restart: always
     environment:
