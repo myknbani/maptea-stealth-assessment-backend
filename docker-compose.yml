@@ -9,8 +9,7 @@ services:
       - /app/node_modules # Avoid clobbering node_modules
     ports:
       - 3001:3001
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/maptea
+    env_file: .env
     depends_on:
       - db
     command: pnpm start:dev
