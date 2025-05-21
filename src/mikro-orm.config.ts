@@ -8,7 +8,7 @@ import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 import { PostgreSqlOptions } from '@mikro-orm/postgresql/PostgreSqlMikroORM';
 import { Logger } from '@nestjs/common';
 import { CustomMigrationGenerator } from './orm/custom-migration-generator';
-import { MikroORM } from '@mikro-orm/core';
+import { DataloaderType, MikroORM } from '@mikro-orm/core';
 
 const additionalOptions: PostgreSqlOptions = {};
 if (process.argv.some((arg) => arg.endsWith('node_modules/@mikro-orm/cli/cli'))) {
@@ -27,6 +27,7 @@ export default defineConfig({
   extensions: [EntityGenerator, Migrator, SeedManager],
   entities: ['./dist/**/*.entity.js'],
   entitiesTs: ['./src/**/*.entity.ts'],
+  dataloader: DataloaderType.ALL,
   debug: true,
   metadataProvider: TsMorphMetadataProvider,
   highlighter: new SqlHighlighter(),

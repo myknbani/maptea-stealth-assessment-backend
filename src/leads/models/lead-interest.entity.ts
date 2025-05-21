@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, PrimaryKey, Property, Ref } from '@mikro-orm/core';
 import { Lead } from './lead.entity';
 import { ServiceType } from './service-type.entity';
 
@@ -7,15 +7,12 @@ export class LeadInterest {
   @PrimaryKey()
   id: number;
 
-  @ManyToOne()
-  lead: Lead;
+  @ManyToOne({ ref: true })
+  lead: Ref<Lead>;
 
-  @ManyToOne()
-  serviceType: ServiceType;
+  @ManyToOne({ ref: true })
+  serviceType: Ref<ServiceType>;
 
-  /**
-   *
-   */
   @Property({ defaultRaw: 'now()' }) // ORM only sets the 2 FKs leaving created_at setting to the DB
   createdAt: Date = new Date();
 }
