@@ -18,6 +18,7 @@ export class Lead {
   [EntityRepositoryType]?: LeadRepository;
 
   @PrimaryKey()
+  @Field(() => Int)
   id: number;
 
   @Property()
