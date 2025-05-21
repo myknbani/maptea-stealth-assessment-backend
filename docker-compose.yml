@@ -1,0 +1,39 @@
+services:
+  nest:
+    build:
+      context: .
+      target: deps
+    working_dir: /app
+    volumes:
+      - /app/node_modules # Avoid clobbering node_modules
+    ports:
+      - 3001:3001
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/maptea
+    depends_on:
+      - db
+    command: pnpm start:dev
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: pnpm-lock.yaml
+
+  db:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: maptea
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

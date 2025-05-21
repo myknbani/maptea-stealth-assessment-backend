@@ -5,8 +5,9 @@ WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@10.10.0 --activate
 
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+COPY package.json pnpm-lock.yaml tsconfig.json ./
+RUN pnpm install --frozen-lockfile --ignore-scripts
+COPY . .
 
 # Stage 2: Build the app
 FROM node:22.15-alpine AS builder
