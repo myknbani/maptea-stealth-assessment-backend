@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prepare": "husky",
     "orm": "pnpm exec mikro-orm",
+    "orm:with-env": "env $(cat .env | xargs) pnpm exec mikro-orm",
     "qa:lint-staged": "lint-staged",
     "qa:typecheck": "tsc --noEmit",
     "qa:test": "pnpm test",
