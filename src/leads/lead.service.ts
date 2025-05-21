@@ -4,6 +4,7 @@ import { ServiceTypeRepository } from './service-type.repository';
 import { Lead } from './models/lead.entity';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { RegisterLeadInput } from './models/register-lead.input';
+import { ListLeadsInput } from './models/list-leads.input';
 
 @Injectable()
 export class LeadService {
@@ -26,7 +27,7 @@ export class LeadService {
     return lead;
   }
 
-  async getLeads(): Promise<Lead[]> {
-    return await this.leadRepository.findAll();
+  async getLeads(listLeadsInput: ListLeadsInput): Promise<Lead[]> {
+    return await this.leadRepository.listLeads(listLeadsInput);
   }
 }
