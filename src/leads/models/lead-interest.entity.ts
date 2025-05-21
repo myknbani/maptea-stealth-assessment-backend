@@ -11,7 +11,7 @@ export class LeadInterest {
   lead: Lead;
 
   @ManyToOne()
-  diningServiceType: ServiceType;
+  serviceType: ServiceType;
 
   /**
    *

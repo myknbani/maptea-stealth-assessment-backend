@@ -184,8 +184,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "dining_service_type_id": {
-          "name": "dining_service_type_id",
+        "service_type_id": {
+          "name": "service_type_id",
           "type": "int",
           "unsigned": false,
           "autoincrement": false,
@@ -233,10 +233,10 @@
           "referencedTableName": "public.lead",
           "updateRule": "cascade"
         },
-        "lead_interest_dining_service_type_id_foreign": {
-          "constraintName": "lead_interest_dining_service_type_id_foreign",
+        "lead_interest_service_type_id_foreign": {
+          "constraintName": "lead_interest_service_type_id_foreign",
           "columnNames": [
-            "dining_service_type_id"
+            "service_type_id"
           ],
           "localTableName": "public.lead_interest",
           "referencedColumnNames": [
