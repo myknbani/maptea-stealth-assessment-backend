@@ -1,10 +1,9 @@
 import { createMock } from '@golevelup/ts-jest';
-import { EntityManager, SqlEntityManager } from '@mikro-orm/postgresql';
+import { EntityManager } from '@mikro-orm/postgresql';
 import { Test } from '@nestjs/testing';
 import { LeadRepository } from './lead.repository';
-import { ListLeadsInput } from './models/list-leads.input';
 import { Lead } from './models/lead.entity';
-import { getRepositoryToken } from '@mikro-orm/nestjs';
+import { ListLeadsInput } from './models/list-leads.input';
 
 describe('LeadRepository', () => {
   let leadRepository: LeadRepository;
