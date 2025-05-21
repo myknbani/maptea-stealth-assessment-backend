@@ -8,6 +8,7 @@ import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
 import { LeadsModule } from './leads/leads.module';
 import mikroOrmConfig from './mikro-orm.config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import mikroOrmConfig from './mikro-orm.config';
       autoSchemaFile: true,
     }),
     LeadsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
