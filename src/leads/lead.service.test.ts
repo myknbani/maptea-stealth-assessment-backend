@@ -7,43 +7,44 @@ import { Collection, EntityManager } from '@mikro-orm/postgresql';
 import { Lead } from './models/lead.entity';
 import { ServiceType } from './models/service-type.entity';
 import { createMock } from '@golevelup/ts-jest';
+import { ListLeadsInput } from './models/list-leads.input';
 
 describe('LeadService', () => {
+  let leadService: LeadService;
+  let leadRepository: LeadRepository;
+  let serviceTypeRepository: ServiceTypeRepository;
+  let entityManager: EntityManager;
+
+  const mockServices = [
+    new ServiceType({
+      id: 1,
+      name: 'pick-up',
+      createdAt: new Date('2025-05-05'),
+      updatedAt: new Date('2025-05-05'),
+    }),
+    new ServiceType({
+      id: 2,
+      name: 'delivery',
+      createdAt: new Date('2025-05-05'),
+      updatedAt: new Date('2025-05-05'),
+    }),
+  ];
+
+  beforeEach(async () => {
+    const mockMOdule = await Test.createTestingModule({
+      providers: [LeadService],
+    })
+      .useMocker(createMock)
+      .compile();
+
+    leadRepository = mockMOdule.get(LeadRepository);
+    serviceTypeRepository = mockMOdule.get(ServiceTypeRepository);
+    entityManager = mockMOdule.get(EntityManager);
+
+    leadService = mockMOdule.get(LeadService);
+  });
+
   describe('#createLead', () => {
-    let leadService: LeadService;
-    let leadRepository: LeadRepository;
-    let serviceTypeRepository: ServiceTypeRepository;
-    let entityManager: EntityManager;
-
-    const mockServices = [
-      new ServiceType({
-        id: 1,
-        name: 'pick-up',
-        createdAt: new Date('2025-05-05'),
-        updatedAt: new Date('2025-05-05'),
-      }),
-      new ServiceType({
-        id: 2,
-        name: 'delivery',
-        createdAt: new Date('2025-05-05'),
-        updatedAt: new Date('2025-05-05'),
-      }),
-    ];
-
-    beforeEach(async () => {
-      const mockMOdule = await Test.createTestingModule({
-        providers: [LeadService],
-      })
-        .useMocker(createMock)
-        .compile();
-
-      leadRepository = mockMOdule.get(LeadRepository);
-      serviceTypeRepository = mockMOdule.get(ServiceTypeRepository);
-      entityManager = mockMOdule.get(EntityManager);
-
-      leadService = mockMOdule.get(LeadService);
-    });
-
     it('creates a lead with the given input', async () => {
       // Arrange
       const lead = new RegisterLeadInput({
@@ -87,6 +88,46 @@ describe('LeadService', () => {
         name: { $in: servicesInterests },
       });
       expect(entityManager.flush).toHaveBeenCalled();
+    });
+  });
+
+  describe('#listLeads', () => {
+    it('lists leads with the given input', async () => {
+      // Arrange
+      const paginationSettings = new ListLeadsInput({ page: 1, limit: 10 });
+
+      const mockLeads = [
+        new Lead({
+          id: 1,
+          email: 'mike@maptea.au',
+          fullPhoneNumber: '639294584946',
+          name: 'Mike',
+          postCode: '1234',
+          createdAt: new Date('2025-05-05'),
+          updatedAt: new Date('2025-05-05'),
+          servicesInterests: new Collection<ServiceType>(['pick-up', 'delivery']),
+        }),
+        new Lead({
+          id: 2,
+          email: 'like@maptea.au',
+          fullPhoneNumber: '639294584946',
+          name: 'Like',
+          postCode: '1234',
+          createdAt: new Date('2025-05-05'),
+          updatedAt: new Date('2025-05-05'),
+          servicesInterests: new Collection<ServiceType>(['pick-up', 'payment']),
+        }),
+      ];
+
+      jest.spyOn(leadRepository, 'listLeads').mockResolvedValue(mockLeads);
+
+      // Act
+      const result = await leadService.getLeads(paginationSettings);
+      console.log('***', result);
+
+      // Assert
+      expect(result).toEqual(mockLeads);
+      expect(leadRepository.listLeads).toHaveBeenCalledWith(paginationSettings);
     });
   });
 });
