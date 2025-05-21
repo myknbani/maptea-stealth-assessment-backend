@@ -20,6 +20,32 @@ export class LeadResolver {
     return await this.leadService.createLead(leadInput);
   }
 
+  /**
+   * This documentatotion is not visible in GraphiQL.
+   *
+   * An observation: the ORM currently produces a seemingly inefficient query, using both a series
+   * of `OR` and an `IN (...)`. It could be a bug, but something the query planner may be able to
+   * optimize.
+   *
+   * ```sql
+   * SELECT
+   *   "s1".*,
+   *   "l0"."service_type_id" AS "fk__service_type_id",
+   *   "l0"."lead_id" AS "fk__lead_id"
+   * FROM
+   *   "lead_interest" AS "l0"
+   *   INNER JOIN "service_type" AS "s1" ON "l0"."service_type_id" = "s1"."id"
+   * WHERE (("l0"."lead_id" = 1)
+   *   OR ("l0"."lead_id" = 2)
+   *   OR ("l0"."lead_id" = 6)
+   *   OR ("l0"."lead_id" = 7)
+   *   OR ("l0"."lead_id" = 8)
+   *   OR ("l0"."lead_id" = 9))
+   * AND "l0"."lead_id" IN (1, 2, 6, 7, 8, 9)
+   * ORDER BY
+   *   "l0"."id" ASC[took 2 ms, 5 results]
+   * ```
+   */
   @ResolveField(() => [ServiceType])
   async servicesInterests(@Parent() lead: Lead) {
     return await lead.servicesInterests.load();
