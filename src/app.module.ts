@@ -25,6 +25,7 @@ import { AuthModule } from './auth/auth.module';
       driver: ApolloDriver,
       graphiql: true,
       autoSchemaFile: true,
+      includeStacktraceInErrorResponses: process.env.NODE_ENV !== 'production',
     }),
     LeadsModule,
     AuthModule,
