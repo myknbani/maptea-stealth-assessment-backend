@@ -34,7 +34,7 @@ export class Lead {
   @Property()
   postCode: string;
 
-  @HideField() // temporary
+  @Field(() => [ServiceType])
   @ManyToMany({ pivotEntity: () => LeadInterest })
   servicesInterests: Collection<ServiceType> = new Collection<ServiceType>(this);
 

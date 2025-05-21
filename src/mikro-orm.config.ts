@@ -27,7 +27,7 @@ export default defineConfig({
   extensions: [EntityGenerator, Migrator, SeedManager],
   entities: ['./dist/**/*.entity.js'],
   entitiesTs: ['./src/**/*.entity.ts'],
-  dataloader: DataloaderType.ALL,
+  dataloader: DataloaderType.COLLECTION,
   debug: true,
   metadataProvider: TsMorphMetadataProvider,
   highlighter: new SqlHighlighter(),
