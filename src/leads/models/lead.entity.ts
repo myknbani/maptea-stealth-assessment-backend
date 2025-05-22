@@ -6,10 +6,12 @@ import {
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';
-import { LeadRepository } from '../lead.repository';
-import { ServiceType } from './service-type.entity';
-import { LeadInterest } from './lead-interest.entity';
 import { Field, HideField, Int, ObjectType } from '@nestjs/graphql';
+import { Transform } from 'class-transformer';
+import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString } from 'class-validator';
+import { LeadRepository } from '../lead.repository';
+import { LeadInterest } from './lead-interest.entity';
+import { ServiceType } from './service-type.entity';
 
 @Entity({ repository: () => LeadRepository })
 @ObjectType()
@@ -22,15 +24,22 @@ export class Lead {
   id: number;
 
   @Property()
+  @IsString()
+  @IsNotEmpty()
   name: string;
 
   @Property()
+  @IsEmail()
   email: string;
 
   @Property()
+  @Transform(({ value }: { value: string }) => value.replace(/^(\d)/, '+$1'))
+  @IsPhoneNumber()
   fullPhoneNumber: string;
 
   @Property()
+  @IsString() // @IsPostalCode() might be too strict for some countries
+  @IsNotEmpty()
   postCode: string;
 
   @Field(() => [ServiceType])
