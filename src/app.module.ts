@@ -7,7 +7,7 @@ import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
 import { LeadsModule } from './leads/leads.module';
-import mikroOrmConfig from './mikro-orm.config';
+import mikroOrmConfig from './orm/mikro-orm.config';
 import { AuthModule } from './auth/auth.module';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 

@@ -7,11 +7,13 @@ import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 
 import { PostgreSqlOptions } from '@mikro-orm/postgresql/PostgreSqlMikroORM';
 import { Logger } from '@nestjs/common';
-import { CustomMigrationGenerator } from './orm/custom-migration-generator';
+import { CustomMigrationGenerator } from './custom-migration-generator';
 import { DataloaderType, MikroORM } from '@mikro-orm/core';
 
 const additionalOptions: PostgreSqlOptions = {};
-if (process.argv.some((arg) => arg.endsWith('.bin/mikro-orm'))) {
+
+// TODO: find a more robust way to check if running in CLI, path in Docker and local different too-
+if (process.argv.some((arg) => arg.includes('mikro-orm'))) {
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl) {
     throw new Error('DATABASE_URL environment variable is missing.');
