@@ -36,4 +36,13 @@ export class LeadService {
   async getLeads(listLeadsInput: ListLeadsInput): Promise<Lead[]> {
     return await this.leadRepository.listLeads(listLeadsInput);
   }
+
+  async getLead(leadId: number): Promise<Lead> {
+    const lead = await this.leadRepository.findOneOrFail(
+      { id: leadId },
+      { populate: ['servicesInterests'] },
+    );
+    this.logger.log(`Lead found: ${JSON.stringify(lead)}`);
+    return lead;
+  }
 }
