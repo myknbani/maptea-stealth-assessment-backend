@@ -7,7 +7,11 @@ import { LoginInput } from './models/login.input';
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => AuthResult)
+  @Mutation(() => AuthResult, {
+    description:
+      'Login a user and return an access token.  For simplicity, this example does not ' +
+      ' use a refresh token.',
+  })
   async login(@Args('loginInput') loginInput: LoginInput): Promise<AuthResult> {
     const { username, password } = loginInput;
     return await this.authService.login(username, password);

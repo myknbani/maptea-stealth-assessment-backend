@@ -8,6 +8,9 @@ export class RegisterLeadInput extends OmitType(
   ['id', 'createdAt', 'updatedAt', 'servicesInterests'],
   InputType,
 ) {
+  /**
+   * The list of service interests names for the lead.
+   */
   @IsString({ each: true })
   @ArrayMinSize(1)
   servicesInterests: string[];

@@ -12,25 +12,38 @@ import { AuthenticatedUserGuard } from '../auth/enhancers/authenticated-user.gua
 export class LeadResolver {
   constructor(private readonly leadService: LeadService) {}
 
-  @Query(() => [Lead], { name: 'leads' })
+  @Query(() => [Lead], {
+    name: 'leads',
+    description:
+      'Retrieve a page of leads. This has no authentication for demo purposes, if it creates ' +
+      'friction for the exercise.',
+  })
   async getLeads(@Args('listLeadsInput') listLeadsInput: ListLeadsInput): Promise<Lead[]> {
     return await this.leadService.getLeads(listLeadsInput);
   }
 
-  @Query(() => Lead, { name: 'lead' })
+  @Query(() => Lead, {
+    name: 'lead',
+    description: 'Get a lead by its ID, also has no auth for demo purposes.',
+  })
   async getLead(@Args({ name: 'id', type: () => Int }) id: number): Promise<Lead> {
     return await this.leadService.getLead(id);
   }
 
   @UseGuards(AuthenticatedUserGuard)
-  @Query(() => [Lead], { name: 'authenticatedLeads' })
+  @Query(() => [Lead], {
+    name: 'authenticatedLeads',
+    description:
+      'A demo endpoint to show that GraphQL operations can be protected. Aside from requiring a ' +
+      'Bearer token, this is exactly identical to the `leads` query.',
+  })
   async getAuthenticatedLeads(
     @Args('listLeadsInput') listLeadsInput: ListLeadsInput,
   ): Promise<Lead[]> {
     return await this.leadService.getLeads(listLeadsInput);
   }
 
-  @Mutation(() => Lead, { name: 'createLead' })
+  @Mutation(() => Lead, { name: 'createLead', description: 'Create a new lead.' })
   async createLead(@Args('registerLeadInput') leadInput: RegisterLeadInput): Promise<Lead> {
     return await this.leadService.createLead(leadInput);
   }
