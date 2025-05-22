@@ -34,6 +34,10 @@ describe('AuthenticatedUserGuard', () => {
     });
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('#canActivate', () => {
     it('returns true if the user is authenticated', async () => {
       // Arrange
@@ -54,6 +58,7 @@ describe('AuthenticatedUserGuard', () => {
       // Assert
       expect(result).toBe(true);
       expect(authService.verifyToken).toHaveBeenCalledWith('token');
+      expect(GqlExecutionContext.create).toHaveBeenCalledWith(mockContext);
     });
 
     it('throws UnauthorizedException if the token is invalid', async () => {
@@ -63,7 +68,12 @@ describe('AuthenticatedUserGuard', () => {
 
       // Act
       const promise = guard.canActivate(mockContext);
+
+      // Assert
       await expect(promise).rejects.toThrow(UnauthorizedException);
+      await expect(promise).rejects.toThrow('Invalid token');
+      expect(authService.verifyToken).toHaveBeenCalledWith('token');
+      expect(GqlExecutionContext.create).toHaveBeenCalledWith(mockContext);
     });
 
     it('throws UnauthorizedException if no token is provided', async () => {
@@ -79,11 +89,39 @@ describe('AuthenticatedUserGuard', () => {
         } as unknown as GqlExecutionContext;
       });
 
-      // Act & Assert
-      await expect(guard.canActivate(mockContext)).rejects.toThrow(
-        'No token provided, or invalid token format.',
-      );
+      // Act
+      const promise = guard.canActivate(mockContext);
+
+      // Assert
+      await expect(promise).rejects.toThrow('No token provided, or invalid token format.');
       await expect(guard.canActivate(mockContext)).rejects.toThrow(UnauthorizedException);
+      expect(authService.verifyToken).not.toHaveBeenCalled();
+      expect(GqlExecutionContext.create).toHaveBeenCalledWith(mockContext);
+    });
+
+    it('throws an UnauthorizedException if the token not prefixed with Bearer', async () => {
+      // Arrange
+      const mockContext = {} as ExecutionContext;
+      jest.spyOn(GqlExecutionContext, 'create').mockImplementation(() => {
+        return {
+          getContext: () => ({
+            req: {
+              headers: {
+                authorization: 'token', // No Bearer prefix
+              },
+            } as Request,
+          }),
+        } as unknown as GqlExecutionContext;
+      });
+
+      // Act
+      const promise = guard.canActivate(mockContext);
+
+      // Assert
+      await expect(promise).rejects.toThrow(UnauthorizedException);
+      await expect(promise).rejects.toThrow('No token provided, or invalid token format.');
+      expect(authService.verifyToken).not.toHaveBeenCalled();
+      expect(GqlExecutionContext.create).toHaveBeenCalledWith(mockContext);
     });
   });
 });
