@@ -5,6 +5,8 @@ import { Query } from '@nestjs/graphql';
 import { ListLeadsInput } from './models/list-leads.input';
 import { RegisterLeadInput } from './models/register-lead.input';
 import { ServiceType } from './models/service-type.entity';
+import { UseGuards } from '@nestjs/common';
+import { AuthenticatedUserGuard } from '../auth/enhancers/authenticated-user.guard';
 
 @Resolver(() => Lead)
 export class LeadResolver {
@@ -12,6 +14,14 @@ export class LeadResolver {
 
   @Query(() => [Lead], { name: 'leads' })
   async getLeads(@Args('listLeadsInput') listLeadsInput: ListLeadsInput): Promise<Lead[]> {
+    return await this.leadService.getLeads(listLeadsInput);
+  }
+
+  @UseGuards(AuthenticatedUserGuard)
+  @Query(() => [Lead], { name: 'authenticatedLeads' })
+  async getAuthenticatedLeads(
+    @Args('listLeadsInput') listLeadsInput: ListLeadsInput,
+  ): Promise<Lead[]> {
     return await this.leadService.getLeads(listLeadsInput);
   }
 

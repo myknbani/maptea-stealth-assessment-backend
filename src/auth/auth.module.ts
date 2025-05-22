@@ -1,10 +1,10 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
-import { User } from './models/user.entity';
-import { AuthService } from './auth.service';
-import { AuthResolver } from './auth.resolver';
-import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthResolver } from './auth.resolver';
+import { AuthService } from './auth.service';
+import { User } from './models/user.entity';
 
 @Module({
   imports: [
@@ -19,5 +19,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
   ],
   providers: [AuthService, AuthResolver],
+  exports: [AuthService],
 })
 export class AuthModule {}

@@ -26,4 +26,13 @@ export class AuthService {
       accessToken: this.jwtService.sign({ sub: user.id, username: user.username }),
     };
   }
+
+  async verifyToken(token: string) {
+    try {
+      const decoded = this.jwtService.verify<{ sub: number; username: string }>(token);
+      return this.userRepository.findOne({ id: decoded.sub });
+    } catch {
+      throw new UnauthorizedException('Invalid token');
+    }
+  }
 }

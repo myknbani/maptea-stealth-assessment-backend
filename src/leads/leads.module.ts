@@ -5,6 +5,7 @@ import { LeadInterest } from './models/lead-interest.entity';
 import { ServiceType } from './models/service-type.entity';
 import { LeadService } from './lead.service';
 import { LeadResolver } from './lead.resolver';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { LeadResolver } from './lead.resolver';
       LeadInterest,
       ServiceType,
     ]),
+    AuthModule,
   ],
   providers: [LeadService, LeadResolver],
 })
