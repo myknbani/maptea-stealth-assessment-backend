@@ -11,7 +11,7 @@ import { CustomMigrationGenerator } from './orm/custom-migration-generator';
 import { DataloaderType, MikroORM } from '@mikro-orm/core';
 
 const additionalOptions: PostgreSqlOptions = {};
-if (process.argv.some((arg) => arg.endsWith('node_modules/@mikro-orm/cli/cli'))) {
+if (process.argv.some((arg) => arg.endsWith('.bin/mikro-orm'))) {
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl) {
     throw new Error('DATABASE_URL environment variable is missing.');
