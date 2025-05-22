@@ -35,7 +35,7 @@ describe('AuthenticatedUserGuard', () => {
   });
 
   describe('#canActivate', () => {
-    it('should return true if the user is authenticated', async () => {
+    it('returns true if the user is authenticated', async () => {
       // Arrange
       const mockContext = {} as ExecutionContext;
       jest.spyOn(authService, 'verifyToken').mockResolvedValue(
@@ -56,7 +56,7 @@ describe('AuthenticatedUserGuard', () => {
       expect(authService.verifyToken).toHaveBeenCalledWith('token');
     });
 
-    it('should throw UnauthorizedException if the token is invalid', async () => {
+    it('throws UnauthorizedException if the token is invalid', async () => {
       // Arrange
       const mockContext = {} as ExecutionContext;
       jest.spyOn(authService, 'verifyToken').mockResolvedValue(null);
@@ -66,7 +66,7 @@ describe('AuthenticatedUserGuard', () => {
       await expect(promise).rejects.toThrow(UnauthorizedException);
     });
 
-    it('should throw UnauthorizedException if no token is provided', async () => {
+    it('throws UnauthorizedException if no token is provided', async () => {
       // Arrange
       const mockContext = {} as ExecutionContext;
       jest.spyOn(GqlExecutionContext, 'create').mockImplementation(() => {
