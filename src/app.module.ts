@@ -10,17 +10,17 @@ import { LeadsModule } from './leads/leads.module';
 import mikroOrmConfig from './orm/mikro-orm.config';
 import { AuthModule } from './auth/auth.module';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { Config } from './config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     MikroOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
+      inject: [Config],
+      useFactory: (config: Config) => ({
         driver: PostgreSqlDriver,
         ...mikroOrmConfig,
-        clientUrl: configService.get('DATABASE_URL'),
+        clientUrl: config.databaseUrl,
       }),
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -33,6 +33,6 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AppResolver],
+  providers: [AppService, AppResolver, Config],
 })
 export class AppModule {}
