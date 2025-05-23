@@ -37,13 +37,13 @@ docker-compose up --build --watch
 - entry point will be GraphQL resolvers
   - this allows a possibility of using other entry points (e.g. REST, gRPC, or event-driven "doors"
     to other microservices)
-    `*.resolver.ts` files - very lean code, usually just delegating to services
+  - `*.resolver.ts` files - very lean code, usually just delegating to services
 - business logic will be in services
   - business logic goes here, and is GraphQL-agnostic and DB/ORM-agnostic as possible
-    `*.service.ts` files - fatter code
+  - `*.service.ts` files - fatter code
 - data access will be in repositories
   - complicated `.find*` queries go here, or even falling back to raw SQL
-    `*.repository.ts` files
+  - `*.repository.ts` files
 - models
   - `*.entity.ts` files - these are the MikroORM entities, and form the base of validation rules
   - `*.input.ts` files - these are the GraphQL input types, extracted from entities for DRY code
