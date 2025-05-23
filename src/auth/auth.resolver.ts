@@ -3,6 +3,10 @@ import { AuthResult } from './models/auth-result.model';
 import { AuthService } from './auth.service';
 import { LoginInput } from './models/login.input';
 
+/**
+ * The resolver for authentication-related operations. For now, this resolver handles the only the
+ * login operation.
+ */
 @Resolver(() => AuthResult)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
