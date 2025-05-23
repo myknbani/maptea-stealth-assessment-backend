@@ -82,7 +82,7 @@ EOF
 ### Get Leads
 
 ```sh
-# Use http://localhost:3001 on local
+# Please use http://localhost:3001 on local
 curl -X POST https://api.stackslurper.xyz/graphql \
   -H "Content-Type: application/json" \
   -H "Accept: application/json" \
@@ -111,7 +111,7 @@ EOF
 ### Get Lead
 
 ```sh
-# Use http://localhost:3001 on local
+# Please use http://localhost:3001 on local
 curl -s -X POST https://api.stackslurper.xyz/graphql \
   -H "Content-Type: application/json" \
   -H "Accept: application/json" \
@@ -147,7 +147,7 @@ There's only one user right now, that's seeded. Username and password are both `
 are no administrative functions yet 😅
 
 ```sh
-# Use http://localhost:3001 on local
+# Please use http://localhost:3001 on local
 curl -s -X POST https://api.stackslurper.xyz/graphql \
   -H "Content-Type: application/json" \
   -H "Accept: application/json" \
