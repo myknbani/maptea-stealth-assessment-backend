@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { LeadRepository } from './lead.repository';
 import { ServiceTypeRepository } from './service-type.repository';
 import { Lead } from './models/lead.entity';
-import { EntityManager } from '@mikro-orm/postgresql';
+import { EntityManager, UniqueConstraintViolationException } from '@mikro-orm/postgresql';
 import { RegisterLeadInput } from './models/register-lead.input';
 import { ListLeadsInput } from './models/list-leads.input';
 
@@ -26,20 +26,32 @@ export class LeadService {
    * @returns A promise that resolves to the created lead.
    */
   async createLead(leadInput: RegisterLeadInput): Promise<Lead> {
-    this.logger.log(`Creating lead with input: ${JSON.stringify(leadInput)}`);
+    try {
+      this.logger.log(`Creating lead with input: ${JSON.stringify(leadInput)}`);
 
-    const { servicesInterestedIn: servicesInterestedIn, ...profile } = leadInput;
-    const lead = this.leadRepository.create(profile as Lead);
+      const { servicesInterestedIn: servicesInterestedIn, ...profile } = leadInput;
+      const lead = this.leadRepository.create(profile as Lead);
 
-    const serviceTypes = await this.serviceTypeRepository.find({
-      name: { $in: servicesInterestedIn },
-    });
-    lead.servicesInterestedIn.set(serviceTypes);
-    this.logger.debug(`Creating lead with services: ${JSON.stringify(lead)}`);
+      const serviceTypes = await this.serviceTypeRepository.find({
+        name: { $in: servicesInterestedIn },
+      });
+      lead.servicesInterestedIn.set(serviceTypes);
+      this.logger.debug(`Creating lead with services: ${JSON.stringify(lead)}`);
 
-    await this.entityManager.flush();
-    this.logger.log(`Lead created successfully: ${JSON.stringify(lead)}`);
-    return lead;
+      await this.entityManager.flush();
+      this.logger.log(`Lead created successfully: ${JSON.stringify(lead)}`);
+      return lead;
+    } catch (error) {
+      // TODO: ideally we would handle this via Exception Filters of NestJS
+
+      if (error instanceof UniqueConstraintViolationException) {
+        this.logger.error(`Duplicate lead registered: ${error.message}`);
+        throw new ConflictException('Lead with the same email already exists.');
+      }
+
+      this.logger.error(`Error creating lead: ${(error as Error).message}`);
+      throw error;
+    }
   }
 
   /**
