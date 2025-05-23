@@ -92,7 +92,7 @@ describe('LeadService', () => {
   });
 
   describe('#listLeads', () => {
-    it('lists leads with the given input', async () => {
+    it('lists leads from the first page', async () => {
       // Arrange
       const paginationSettings = new ListLeadsInput({ page: 1, limit: 10 });
 
@@ -127,6 +127,62 @@ describe('LeadService', () => {
       // Assert
       expect(result).toEqual(mockLeads);
       expect(leadRepository.listLeads).toHaveBeenCalledWith(paginationSettings);
+    });
+
+    it('lists leads from the second page with a different limit', async () => {
+      // Arrange
+      const paginationSettings = new ListLeadsInput({ page: 2, limit: 5 });
+
+      const mockLeads = [
+        new Lead({
+          id: 1,
+          email: 'testuser@example.com',
+          fullPhoneNumber: '639294584946',
+          name: 'Test User',
+          postCode: '1234',
+          createdAt: new Date('2025-05-05'),
+          updatedAt: new Date('2025-05-05'),
+          servicesInterests: new Collection<ServiceType>(['pick-up', 'delivery']),
+        }),
+      ];
+
+      jest.spyOn(leadRepository, 'listLeads').mockResolvedValue(mockLeads);
+
+      // Act
+      const result = await leadService.getLeads(paginationSettings);
+
+      // Assert
+      expect(result).toEqual(mockLeads);
+      expect(leadRepository.listLeads).toHaveBeenCalledWith(paginationSettings);
+    });
+  });
+
+  describe('#getLead', () => {
+    it('returns a lead with the given id', async () => {
+      // Arrange
+      const leadId = 1;
+      const mockLead = new Lead({
+        id: leadId,
+        email: 'testuser@example.com',
+        fullPhoneNumber: '639294584946',
+        name: 'Test User',
+        postCode: '1234',
+        createdAt: new Date('2025-05-05'),
+        updatedAt: new Date('2025-05-05'),
+        servicesInterests: new Collection<ServiceType>(['pick-up', 'delivery']),
+      });
+
+      jest.spyOn(leadRepository, 'findOneOrFail').mockResolvedValue(mockLead);
+
+      // Act
+      const result = await leadService.getLead(leadId);
+
+      // Assert
+      expect(result).toEqual(mockLead);
+      expect(leadRepository.findOneOrFail).toHaveBeenCalledWith(
+        { id: leadId },
+        { populate: ['servicesInterests'] },
+      );
     });
   });
 });
