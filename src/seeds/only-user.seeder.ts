@@ -3,6 +3,10 @@ import { Seeder } from '@mikro-orm/seeder';
 import bcrypt from 'bcryptjs';
 import { User } from '../auth/models/user.entity';
 
+/**
+ * Seeder to populate the database with a single user, for demo purposes of the authenticated
+ * version of the `leads` query.
+ */
 export class OnlyUserSeeder extends Seeder {
   async run(entityManager: EntityManager) {
     const repository = entityManager.getRepository(User);

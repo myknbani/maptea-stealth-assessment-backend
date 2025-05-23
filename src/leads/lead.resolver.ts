@@ -8,6 +8,9 @@ import { ServiceType } from './models/service-type.entity';
 import { UseGuards } from '@nestjs/common';
 import { AuthenticatedUserGuard } from '../auth/enhancers/authenticated-user.guard';
 
+/**
+ * The resolver for lead-related operations.
+ */
 @Resolver(() => Lead)
 export class LeadResolver {
   constructor(private readonly leadService: LeadService) {}
