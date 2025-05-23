@@ -58,7 +58,7 @@ describe('LeadResolver', () => {
       jest.spyOn(leadService, 'createLead').mockResolvedValue(mockLead);
 
       // Act
-      const result = await leadResolver.createLead(leadInput);
+      const result = await leadResolver.register(leadInput);
 
       // Assert
       expect(result).toEqual(mockLead);

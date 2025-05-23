@@ -58,7 +58,7 @@ curl -s -X POST https://api.stackslurper.xyz/graphql \
   -d @- <<EOF # | jq   # Uncomment to pretty-print if you have jq installed
 {
   "query": "mutation RegisterLead(\$registrationInput: RegisterLeadInput!) {
-    createLead(registerLeadInput: \$registrationInput) {
+    register(registerLeadInput: \$registrationInput) {
       id
       name
     }

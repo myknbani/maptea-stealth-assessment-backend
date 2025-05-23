@@ -46,8 +46,8 @@ export class LeadResolver {
     return await this.leadService.getLeads(listLeadsInput);
   }
 
-  @Mutation(() => Lead, { name: 'createLead', description: 'Create a new lead.' })
-  async createLead(@Args('registerLeadInput') leadInput: RegisterLeadInput): Promise<Lead> {
+  @Mutation(() => Lead, { name: 'register', description: 'Registers a new lead.' })
+  async register(@Args('registerLeadInput') leadInput: RegisterLeadInput): Promise<Lead> {
     return await this.leadService.createLead(leadInput);
   }
 
