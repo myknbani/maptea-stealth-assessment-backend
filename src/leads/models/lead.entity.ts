@@ -47,7 +47,7 @@ export class Lead {
   /**
    * The email address of the lead.
    */
-  @Property()
+  @Property({ unique: true })
   @IsEmail()
   email: string;
 
