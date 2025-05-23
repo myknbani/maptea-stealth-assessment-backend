@@ -134,16 +134,39 @@ EOF
 
 ---
 
-### Authenticated Leads
+### With Authentication
 
 Felt like adding this, since unauthenticated ones are helpful for a low-friction demo, but a production
 system would need authentication.
 
 ##### Get Access Token
 
-```sh
+There's only one user right now, that's seeded. Username and password are both `admin`, but there
+are no administrative functions yet 😅
 
+```sh
+# Use http://localhost:3001 on local
+curl -s -X POST https://api.stackslurper.xyz/graphql \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d @- <<EOF # | jq   # Uncomment to pretty-print if jq is installed
+{
+  "query": "mutation Login(\$loginInput: LoginInput!) {
+    login(loginInput: \$loginInput) {
+      accessToken
+    }
+  }",
+  "variables": {
+    "loginInput": {
+      "username": "admin",
+      "password": "admin"
+    }
+  }
+}
+EOF
 ```
+
+##### Get Authenticated Leads
 
 ```sh
 curl -X POST https://api.stackslurper.xyz/graphql \
