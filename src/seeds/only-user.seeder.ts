@@ -1,8 +1,7 @@
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Seeder } from '@mikro-orm/seeder';
-import { ServiceType } from '../leads/models/service-type.entity';
-import { User } from '../auth/models/user.entity';
 import bcrypt from 'bcryptjs';
+import { User } from '../auth/models/user.entity';
 
 export class OnlyUserSeeder extends Seeder {
   async run(entityManager: EntityManager) {
