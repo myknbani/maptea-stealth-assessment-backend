@@ -13,7 +13,9 @@ and faster (symlinked) installs.
 
 ## Getting Started
 
-To run locally, a Docker Compose file is provided.
+**This is hosted in https://api.stackslurper.xyz/graphql**
+
+But to run locally, a Docker Compose file is provided.
 
 - It needs [v2.22](https://docs.docker.com/compose/how-tos/file-watch/) or higher to use `--watch` mode.
 - **[UNTESTED]** If you have an older version, you can just use `docker-compose up` instead.
