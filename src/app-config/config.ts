@@ -16,5 +16,8 @@ export class Config {
     return this.configService.get('JWT_SECRET', { infer: true });
   }
 
-  jwtExpiration: '1h';
+  // non-environment-specific (a.k.a. app) config
+  get jwtExpiration() {
+    return '1h'; // somehow property syntax does not work
+  }
 }
