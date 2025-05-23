@@ -78,7 +78,7 @@ export class LeadResolver {
    * ```
    */
   @ResolveField(() => [ServiceType])
-  async servicesInterests(@Parent() lead: Lead) {
-    return await lead.servicesInterests.load();
+  async servicesInterestedIn(@Parent() lead: Lead) {
+    return await lead.servicesInterestedIn.load();
   }
 }

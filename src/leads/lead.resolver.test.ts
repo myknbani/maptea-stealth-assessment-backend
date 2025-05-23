@@ -31,16 +31,16 @@ describe('LeadResolver', () => {
         fullPhoneNumber: '639294584946',
         name: 'Mike',
         postCode: '1234',
-        servicesInterests: ['pick-up', 'delivery'],
+        servicesInterestedIn: ['pick-up', 'delivery'],
       });
 
-      const { servicesInterests: _, ...profile } = leadInput;
+      const { servicesInterestedIn: _, ...profile } = leadInput;
       const mockLead = new Lead({
         ...profile,
         id: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
-        servicesInterests: new Collection([
+        servicesInterestedIn: new Collection([
           new ServiceType({
             id: 1,
             name: 'pick-up',

@@ -75,7 +75,7 @@ export class Lead {
    */
   @Field(() => [ServiceType])
   @ManyToMany({ pivotEntity: () => LeadInterest })
-  servicesInterests: Collection<ServiceType> = new Collection<ServiceType>(this);
+  servicesInterestedIn: Collection<ServiceType> = new Collection<ServiceType>(this);
 
   /**
    * The date and time when the lead was created.

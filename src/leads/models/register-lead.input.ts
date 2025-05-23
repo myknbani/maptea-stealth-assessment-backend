@@ -5,7 +5,7 @@ import { ArrayMinSize, IsString } from 'class-validator';
 @InputType()
 export class RegisterLeadInput extends OmitType(
   Lead,
-  ['id', 'createdAt', 'updatedAt', 'servicesInterests'],
+  ['id', 'createdAt', 'updatedAt', 'servicesInterestedIn'],
   InputType,
 ) {
   /**
@@ -13,7 +13,7 @@ export class RegisterLeadInput extends OmitType(
    */
   @IsString({ each: true })
   @ArrayMinSize(1)
-  servicesInterests: string[];
+  servicesInterestedIn: string[];
 
   constructor(data: RegisterLeadInput) {
     super();

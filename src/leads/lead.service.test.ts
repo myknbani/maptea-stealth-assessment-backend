@@ -52,10 +52,10 @@ describe('LeadService', () => {
         fullPhoneNumber: '639294584946',
         name: 'Mike',
         postCode: '1234',
-        servicesInterests: ['pick-up', 'delivery'],
+        servicesInterestedIn: ['pick-up', 'delivery'],
       });
 
-      const { servicesInterests, ...profile } = lead;
+      const { servicesInterestedIn: servicesInterestedIn, ...profile } = lead;
 
       jest.spyOn(leadRepository, 'create').mockReturnValue(
         new Lead({
@@ -63,7 +63,7 @@ describe('LeadService', () => {
           id: 1,
           createdAt: new Date('2025-05-05'),
           updatedAt: new Date('2025-05-05'),
-          servicesInterests: new Collection<ServiceType>([]),
+          servicesInterestedIn: new Collection<ServiceType>([]),
         }),
       );
 
@@ -79,13 +79,13 @@ describe('LeadService', () => {
           ...profile,
           createdAt: new Date('2025-05-05'),
           updatedAt: new Date('2025-05-05'),
-          servicesInterests: new Collection(mockServices),
+          servicesInterestedIn: new Collection(mockServices),
         }),
       );
 
       expect(leadRepository.create).toHaveBeenCalledWith(profile);
       expect(serviceTypeRepository.find).toHaveBeenCalledWith({
-        name: { $in: servicesInterests },
+        name: { $in: servicesInterestedIn },
       });
       expect(entityManager.flush).toHaveBeenCalled();
     });
@@ -105,7 +105,7 @@ describe('LeadService', () => {
           postCode: '1234',
           createdAt: new Date('2025-05-05'),
           updatedAt: new Date('2025-05-05'),
-          servicesInterests: new Collection<ServiceType>(['pick-up', 'delivery']),
+          servicesInterestedIn: new Collection<ServiceType>(['pick-up', 'delivery']),
         }),
         new Lead({
           id: 2,
@@ -115,7 +115,7 @@ describe('LeadService', () => {
           postCode: '1234',
           createdAt: new Date('2025-05-05'),
           updatedAt: new Date('2025-05-05'),
-          servicesInterests: new Collection<ServiceType>(['pick-up', 'payment']),
+          servicesInterestedIn: new Collection<ServiceType>(['pick-up', 'payment']),
         }),
       ];
 
@@ -142,7 +142,7 @@ describe('LeadService', () => {
           postCode: '1234',
           createdAt: new Date('2025-05-05'),
           updatedAt: new Date('2025-05-05'),
-          servicesInterests: new Collection<ServiceType>(['pick-up', 'delivery']),
+          servicesInterestedIn: new Collection<ServiceType>(['pick-up', 'delivery']),
         }),
       ];
 
@@ -169,7 +169,7 @@ describe('LeadService', () => {
         postCode: '1234',
         createdAt: new Date('2025-05-05'),
         updatedAt: new Date('2025-05-05'),
-        servicesInterests: new Collection<ServiceType>(['pick-up', 'delivery']),
+        servicesInterestedIn: new Collection<ServiceType>(['pick-up', 'delivery']),
       });
 
       jest.spyOn(leadRepository, 'findOneOrFail').mockResolvedValue(mockLead);
@@ -181,7 +181,7 @@ describe('LeadService', () => {
       expect(result).toEqual(mockLead);
       expect(leadRepository.findOneOrFail).toHaveBeenCalledWith(
         { id: leadId },
-        { populate: ['servicesInterests'] },
+        { populate: ['servicesInterestedIn'] },
       );
     });
   });

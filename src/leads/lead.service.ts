@@ -28,13 +28,13 @@ export class LeadService {
   async createLead(leadInput: RegisterLeadInput): Promise<Lead> {
     this.logger.log(`Creating lead with input: ${JSON.stringify(leadInput)}`);
 
-    const { servicesInterests, ...profile } = leadInput;
+    const { servicesInterestedIn: servicesInterestedIn, ...profile } = leadInput;
     const lead = this.leadRepository.create(profile as Lead);
 
     const serviceTypes = await this.serviceTypeRepository.find({
-      name: { $in: servicesInterests },
+      name: { $in: servicesInterestedIn },
     });
-    lead.servicesInterests.set(serviceTypes);
+    lead.servicesInterestedIn.set(serviceTypes);
     this.logger.debug(`Creating lead with services: ${JSON.stringify(lead)}`);
 
     await this.entityManager.flush();
@@ -61,7 +61,7 @@ export class LeadService {
   async getLead(leadId: number): Promise<Lead> {
     const lead = await this.leadRepository.findOneOrFail(
       { id: leadId },
-      { populate: ['servicesInterests'] },
+      { populate: ['servicesInterestedIn'] },
     );
     this.logger.log(`Lead found: ${JSON.stringify(lead)}`);
     return lead;
