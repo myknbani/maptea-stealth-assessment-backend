@@ -6,6 +6,7 @@ import { ServiceType } from './models/service-type.entity';
 import { LeadService } from './lead.service';
 import { LeadResolver } from './lead.resolver';
 import { AuthModule } from '../auth/auth.module';
+import { AppConfigModule } from '../app-config/app-config.module';
 
 @Module({
   imports: [
