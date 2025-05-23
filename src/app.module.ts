@@ -28,6 +28,7 @@ import mikroOrmConfig from './orm/mikro-orm.config';
       graphiql: true,
       autoSchemaFile: true,
       includeStacktraceInErrorResponses: process.env.NODE_ENV !== 'production',
+      introspection: true, // expose even in production for exercise demo purposes
     }),
     LeadsModule,
     AuthModule,
