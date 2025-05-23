@@ -1,11 +1,10 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { Config } from '../config';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 import { User } from './models/user.entity';
-import { Config } from '../config';
 
 @Module({
   imports: [
