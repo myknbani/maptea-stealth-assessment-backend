@@ -18,7 +18,7 @@ export class AuthService {
    *
    * @param username The username of the user.
    * @param password The password of the user.
-   * @returns An promise that resolves to an object containing the access token.
+   * @returns A promise that resolves to an object containing the access token.
    */
   async login(username: string, password: string) {
     const user = await this.userRepository.findOne({ username });
