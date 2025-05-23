@@ -1,16 +1,16 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { Config } from './config';
 import { LeadsModule } from './leads/leads.module';
 import mikroOrmConfig from './orm/mikro-orm.config';
-import { AuthModule } from './auth/auth.module';
-import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { Config } from './config';
 
 @Module({
   imports: [
