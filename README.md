@@ -170,10 +170,13 @@ EOF
 
 ##### Get Authenticated Leads
 
+Token has probably expired by now, but this is an example of how to use it.
+
 ```sh
 curl -X POST https://api.stackslurper.xyz/graphql \
   -H "Content-Type: application/json" \
   -H "Accept: application/json" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE3NDc5NzM2NzAsImV4cCI6MTc0Nzk3NzI3MH0.iXUwgjOj0imPd8-gqlJRQpMfhNQIYlPtKMPBz-MFr3g" \
   -d @- <<EOF # | jq   # Uncomment to pretty-print if you have jq installed
 {
   "query": "query GetLeads(\$pagination: ListLeadsInput!) {
