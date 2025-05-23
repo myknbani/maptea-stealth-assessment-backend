@@ -46,7 +46,7 @@ export class AuthService {
   async verifyToken(token: string) {
     try {
       const decoded = this.jwtService.verify<{ sub: number; username: string }>(token);
-      return this.userRepository.findOne({ id: decoded.sub });
+      return await this.userRepository.findOne({ id: decoded.sub });
     } catch {
       throw new UnauthorizedException('Invalid token');
     }
