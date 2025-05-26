@@ -173,6 +173,7 @@ EOF
 Token has probably expired by now, but this is an example of how to use it.
 
 ```sh
+# Please use http://localhost:3001 on local
 curl -X POST https://api.stackslurper.xyz/graphql \
   -H "Content-Type: application/json" \
   -H "Accept: application/json" \
