@@ -17,7 +17,7 @@ describe('LeadRepository', () => {
           provide: EntityManager,
           useValue: {
             // this cannot be mocked by createMock for some reason
-            findAll: jest.fn(),
+            findAndCount: jest.fn(),
           },
         },
       ],
@@ -29,7 +29,7 @@ describe('LeadRepository', () => {
     leadRepository = new LeadRepository(entityManager, Lead); // cannot use module.get(...) here
   });
 
-  describe('#listLeads', () => {
+  describe('#findAndCountLeads', () => {
     it('returns a list of leads from the first page', async () => {
       // Arrange
       const listLeadsInput = new ListLeadsInput({ page: 1, limit: 2 });
@@ -54,16 +54,20 @@ describe('LeadRepository', () => {
         }),
       ];
 
-      jest.spyOn(entityManager, 'findAll').mockResolvedValue(leads);
+      jest.spyOn(entityManager, 'findAndCount').mockResolvedValue([leads, 2]);
 
       // Act
-      const result = await leadRepository.listLeads(listLeadsInput);
+      const result = await leadRepository.findAndCountLeads(listLeadsInput);
       // Assert
-      expect(result).toEqual(leads);
-      expect(entityManager.findAll).toHaveBeenCalledWith(Lead, {
-        limit: 2,
-        offset: 0,
-      });
+      expect(result).toEqual([leads, 2]);
+      expect(entityManager.findAndCount).toHaveBeenCalledWith(
+        Lead,
+        {},
+        {
+          limit: 2,
+          offset: 0,
+        },
+      );
     });
 
     it('calculates the correct offset of page 3 when given a different limit', async () => {
@@ -81,17 +85,21 @@ describe('LeadRepository', () => {
         }),
       ];
 
-      jest.spyOn(entityManager, 'findAll').mockResolvedValue(leads);
+      jest.spyOn(entityManager, 'findAndCount').mockResolvedValue([leads, 1]);
 
       // Act
-      const result = await leadRepository.listLeads(listLeadsInput);
+      const result = await leadRepository.findAndCountLeads(listLeadsInput);
 
       // Assert
-      expect(result).toEqual(leads);
-      expect(entityManager.findAll).toHaveBeenCalledWith(Lead, {
-        limit: 5,
-        offset: 10,
-      });
+      expect(result).toEqual([leads, 1]);
+      expect(entityManager.findAndCount).toHaveBeenCalledWith(
+        Lead,
+        {},
+        {
+          limit: 5,
+          offset: 10,
+        },
+      );
     });
   });
 });

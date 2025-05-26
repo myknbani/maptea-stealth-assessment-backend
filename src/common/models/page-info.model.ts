@@ -1,4 +1,4 @@
-import { Field, Int } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 /**
  * Information about the current page. While the naming is the same, this is not comformant to the
@@ -6,6 +6,7 @@ import { Field, Int } from '@nestjs/graphql';
  *
  * {@link https://www.apollographql.com/docs/graphos/schema-design/guides/relay-style-connections}
  */
+@ObjectType()
 export class PageInfo {
   /**
    * The total number of items available.

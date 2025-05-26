@@ -60,8 +60,8 @@ export class LeadService {
    * @param listLeadsInput - The pagination and filtering options.
    * @returns A promise that resolves to an array of leads.
    */
-  async getLeads(listLeadsInput: ListLeadsInput): Promise<Lead[]> {
-    return await this.leadRepository.listLeads(listLeadsInput);
+  async findAndCountLeads(listLeadsInput: ListLeadsInput): Promise<[Lead[], number]> {
+    return await this.leadRepository.findAndCountLeads(listLeadsInput);
   }
 
   /**

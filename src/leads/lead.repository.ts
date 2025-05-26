@@ -12,10 +12,10 @@ export class LeadRepository extends EntityRepository<Lead> {
    * @param listLeadsInput - The pagination and filtering options.
    * @returns A promise that resolves to an array of leads.
    */
-  async listLeads(listLeadsInput: ListLeadsInput) {
+  async findAndCountLeads(listLeadsInput: ListLeadsInput) {
     const { page, limit } = listLeadsInput;
     const offset = (page - 1) * limit;
-    const leads = await this.findAll({ limit, offset });
+    const leads = await this.findAndCount({}, { limit, offset });
     return leads;
   }
 }

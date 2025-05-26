@@ -7,6 +7,7 @@ import { Lead } from './models/lead.entity';
 import { ListLeadsInput } from './models/list-leads.input';
 import { Collection } from '@mikro-orm/core';
 import { ServiceType } from './models/service-type.entity';
+import { ListLeadsResult } from './models/list-leads-result.model';
 
 describe('LeadResolver', () => {
   let leadResolver: LeadResolver;
@@ -70,16 +71,18 @@ describe('LeadResolver', () => {
     it('returns a list of leads', async () => {
       // Arrange
       const paginationSettings = new ListLeadsInput({ page: 1, limit: 10 });
-      const mockLeads = [new Lead({ id: 1, email: 'mike@gmail.com' })];
+      const mockLeads = [new Lead({ id: 1, email: 'mike@gmail.com' })]; // Mocked response from findAndCountLeads
 
-      jest.spyOn(leadService, 'getLeads').mockResolvedValue(mockLeads);
+      jest.spyOn(leadService, 'findAndCountLeads').mockResolvedValue([mockLeads, 1]);
 
       // Act
       const result = await leadResolver.getLeads(paginationSettings);
 
       // Assert
-      expect(result).toEqual(mockLeads);
-      expect(leadService.getLeads).toHaveBeenCalledWith(paginationSettings);
+      expect(result).toEqual(
+        new ListLeadsResult(mockLeads, 1, paginationSettings.page, paginationSettings.limit),
+      );
+      expect(leadService.findAndCountLeads).toHaveBeenCalledWith(paginationSettings);
     });
   });
 

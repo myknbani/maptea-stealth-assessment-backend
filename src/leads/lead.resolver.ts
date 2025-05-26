@@ -1,12 +1,12 @@
-import { Args, Int, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { Lead } from './models/lead.entity';
+import { UseGuards } from '@nestjs/common';
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { AuthenticatedUserGuard } from '../auth/enhancers/authenticated-user.guard';
 import { LeadService } from './lead.service';
-import { Query } from '@nestjs/graphql';
+import { Lead } from './models/lead.entity';
+import { ListLeadsResult } from './models/list-leads-result.model';
 import { ListLeadsInput } from './models/list-leads.input';
 import { RegisterLeadInput } from './models/register-lead.input';
 import { ServiceType } from './models/service-type.entity';
-import { UseGuards } from '@nestjs/common';
-import { AuthenticatedUserGuard } from '../auth/enhancers/authenticated-user.guard';
 
 /**
  * The resolver for lead-related operations.
@@ -15,14 +15,15 @@ import { AuthenticatedUserGuard } from '../auth/enhancers/authenticated-user.gua
 export class LeadResolver {
   constructor(private readonly leadService: LeadService) {}
 
-  @Query(() => [Lead], {
+  @Query(() => ListLeadsResult, {
     name: 'leads',
     description:
       'Retrieve a page of leads. This has no authentication for demo purposes, if it creates ' +
       'friction for the exercise.',
   })
-  async getLeads(@Args('listLeadsInput') listLeadsInput: ListLeadsInput): Promise<Lead[]> {
-    return await this.leadService.getLeads(listLeadsInput);
+  async getLeads(@Args('listLeadsInput') listLeadsInput: ListLeadsInput): Promise<ListLeadsResult> {
+    const [leads, totalCount] = await this.leadService.findAndCountLeads(listLeadsInput);
+    return new ListLeadsResult(leads, totalCount, listLeadsInput.page, listLeadsInput.limit);
   }
 
   @Query(() => Lead, {
@@ -34,7 +35,7 @@ export class LeadResolver {
   }
 
   @UseGuards(AuthenticatedUserGuard)
-  @Query(() => [Lead], {
+  @Query(() => ListLeadsResult, {
     name: 'authenticatedLeads',
     description:
       'A demo endpoint to show that GraphQL operations can be protected. Aside from requiring a ' +
@@ -42,8 +43,9 @@ export class LeadResolver {
   })
   async getAuthenticatedLeads(
     @Args('listLeadsInput') listLeadsInput: ListLeadsInput,
-  ): Promise<Lead[]> {
-    return await this.leadService.getLeads(listLeadsInput);
+  ): Promise<ListLeadsResult> {
+    const [leads, totalCount] = await this.leadService.findAndCountLeads(listLeadsInput);
+    return new ListLeadsResult(leads, totalCount, listLeadsInput.page, listLeadsInput.limit);
   }
 
   @Mutation(() => Lead, { name: 'register', description: 'Registers a new lead.' })

@@ -91,7 +91,7 @@ describe('LeadService', () => {
     });
   });
 
-  describe('#listLeads', () => {
+  describe('#findAndCountLeads', () => {
     it('lists leads from the first page', async () => {
       // Arrange
       const paginationSettings = new ListLeadsInput({ page: 1, limit: 10 });
@@ -119,14 +119,14 @@ describe('LeadService', () => {
         }),
       ];
 
-      jest.spyOn(leadRepository, 'listLeads').mockResolvedValue(mockLeads);
+      jest.spyOn(leadRepository, 'findAndCountLeads').mockResolvedValue([mockLeads, 2]);
 
       // Act
-      const result = await leadService.getLeads(paginationSettings);
+      const result = await leadService.findAndCountLeads(paginationSettings);
 
       // Assert
-      expect(result).toEqual(mockLeads);
-      expect(leadRepository.listLeads).toHaveBeenCalledWith(paginationSettings);
+      expect(result).toEqual([mockLeads, 2]);
+      expect(leadRepository.findAndCountLeads).toHaveBeenCalledWith(paginationSettings);
     });
 
     it('lists leads from the second page with a different limit', async () => {
@@ -146,14 +146,14 @@ describe('LeadService', () => {
         }),
       ];
 
-      jest.spyOn(leadRepository, 'listLeads').mockResolvedValue(mockLeads);
+      jest.spyOn(leadRepository, 'findAndCountLeads').mockResolvedValue([mockLeads, 1]);
 
       // Act
-      const result = await leadService.getLeads(paginationSettings);
+      const result = await leadService.findAndCountLeads(paginationSettings);
 
       // Assert
-      expect(result).toEqual(mockLeads);
-      expect(leadRepository.listLeads).toHaveBeenCalledWith(paginationSettings);
+      expect(result).toEqual([mockLeads, 1]);
+      expect(leadRepository.findAndCountLeads).toHaveBeenCalledWith(paginationSettings);
     });
   });
 
