@@ -94,7 +94,7 @@ curl -X POST https://api.stackslurper.xyz/graphql \
         totalItemsCount
         totalPageCount
       }
-      leads {
+      records {
         id
         name
         email
@@ -110,6 +110,36 @@ curl -X POST https://api.stackslurper.xyz/graphql \
       "limit": 2
     }
   }
+}
+EOF
+```
+
+The pagination args are optional, and default to `page: 1` and `limit: 10`. This is not yet deployed,
+thus this will only work on local.
+
+```sh
+# Please use http://localhost:3001 on local
+curl -X POST http://localhost:3001/graphql \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d @- <<EOF # | jq   # Uncomment to pretty-print if you have jq installed
+{
+  "query": "query GetLeads {
+    leads {
+      pageInfo {
+        totalItemsCount
+        totalPageCount
+      }
+      records {
+        id
+        name
+        email
+        servicesInterestedIn {
+          name
+        }
+      }
+    }
+  }"
 }
 EOF
 ```
@@ -192,7 +222,7 @@ curl -X POST https://api.stackslurper.xyz/graphql \
         totalItemsCount
         totalPageCount
       }
-      leads {
+      records {
         id
         name
         email

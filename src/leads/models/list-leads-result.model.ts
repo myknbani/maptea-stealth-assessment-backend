@@ -16,10 +16,10 @@ export class ListLeadsResult {
   /**
    * The list of leads for the current page.
    */
-  leads: Lead[];
+  records: Lead[];
 
   constructor(leads: Lead[], totalItemsCount: number, currentPage: number, itemsPerPage: number) {
     this.pageInfo = createPaginationMetadata(totalItemsCount, currentPage, itemsPerPage);
-    this.leads = leads;
+    this.records = leads;
   }
 }
