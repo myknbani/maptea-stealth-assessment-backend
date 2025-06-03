@@ -23,7 +23,7 @@ export class LeadResolver {
   })
   async getLeads(
     @Args('listLeadsInput', { nullable: true })
-    listLeadsInput: ListLeadsInput = new ListLeadsInput({ page: 1, limit: 10 }),
+    listLeadsInput: ListLeadsInput = new ListLeadsInput(),
   ): Promise<ListLeadsResult> {
     const [leads, totalCount] = await this.leadService.findAndCountLeads(listLeadsInput);
     return new ListLeadsResult(leads, totalCount, listLeadsInput.page, listLeadsInput.limit);
