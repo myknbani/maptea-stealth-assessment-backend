@@ -21,7 +21,10 @@ export class LeadResolver {
       'Retrieve a page of leads. This has no authentication for demo purposes, if it creates ' +
       'friction for the exercise.',
   })
-  async getLeads(@Args('listLeadsInput') listLeadsInput: ListLeadsInput): Promise<ListLeadsResult> {
+  async getLeads(
+    @Args('listLeadsInput', { nullable: true })
+    listLeadsInput: ListLeadsInput = new ListLeadsInput(),
+  ): Promise<ListLeadsResult> {
     const [leads, totalCount] = await this.leadService.findAndCountLeads(listLeadsInput);
     return new ListLeadsResult(leads, totalCount, listLeadsInput.page, listLeadsInput.limit);
   }

@@ -22,7 +22,7 @@ export class ListLeadsInput {
   @IsPositive()
   limit: number = 10;
 
-  constructor(data: Partial<ListLeadsInput>) {
+  constructor(data: Partial<ListLeadsInput> = {}) {
     Object.assign(this, data);
   }
 }
