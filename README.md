@@ -2,6 +2,10 @@
 
 This is a simple GraphQL backend, featuring creation and retrieval of leads and their interests.
 
+> [!WARNING]
+> All cURL requests in this README will stop working.  I'll point the `stackslurper.xyz` away from AWS, repurposing it now for my fulltime job.
+
+
 ## Tech Stack
 
 - Backend framework: [Nestjs](https://nestjs.com/)
